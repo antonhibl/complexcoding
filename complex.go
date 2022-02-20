@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
@@ -19,7 +20,8 @@ func complex_add(x complex128, y complex128) (result complex128) {
 }
 
 func complex_subtract(x complex128, y complex128) (result complex128) {
-
+	result = x - y
+	return result
 }
 
 func complex_multiply(x complex128, y complex128) (result complex128) {
@@ -35,7 +37,7 @@ func complex_divide(x complex128, y complex128) (result complex128) {
 func matrix_maker(r1c1 complex128, r1c2 complex128, r2c1 complex128, r2c2 complex128) (result quantum_gate) {
 	result = quantum_gate{
 		r1c1: r1c1,
-		r1c2: r2c2,
+		r1c2: r1c2,
 		r2c1: r2c1,
 		r2c2: r2c2,
 	}
@@ -48,23 +50,71 @@ func matrix_display(matrix quantum_gate) {
 	fmt.Print(" ]\n")
 	fmt.Print("[ ", matrix.r2c1)
 	fmt.Print(" ", matrix.r2c2)
-	fmt.Print(" ]\n")
+	fmt.Print(" ]\n\n")
 }
 
 func matrix_add(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
-	// todo
+	r1c1 := complex_add(matrix1.r1c1, matrix2.r1c1)
+	r1c2 := complex_add(matrix1.r1c2, matrix2.r1c2)
+	r2c1 := complex_add(matrix1.r2c1, matrix2.r2c1)
+	r2c2 := complex_add(matrix1.r2c2, matrix2.r2c2)
+
+	result = quantum_gate{
+		r1c1: r1c1,
+		r1c2: r1c2,
+		r2c1: r2c1,
+		r2c2: r2c2,
+	}
+
+	return result
 }
 
 func matrix_subtract(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
-	// todo
+	r1c1 := complex_subtract(matrix1.r1c1, matrix2.r1c1)
+	r1c2 := complex_subtract(matrix1.r1c2, matrix2.r1c2)
+	r2c1 := complex_subtract(matrix1.r2c1, matrix2.r2c1)
+	r2c2 := complex_subtract(matrix1.r2c2, matrix2.r2c2)
+
+	result = quantum_gate{
+		r1c1: r1c1,
+		r1c2: r1c2,
+		r2c1: r2c1,
+		r2c2: r2c2,
+	}
+
+	return result
 }
 
 func matrix_multiply(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
-	// todo
+	r1c1 := complex_multiply(matrix1.r1c1, matrix2.r1c1)
+	r1c2 := complex_multiply(matrix1.r1c2, matrix2.r1c2)
+	r2c1 := complex_multiply(matrix1.r2c1, matrix2.r2c1)
+	r2c2 := complex_multiply(matrix1.r2c2, matrix2.r2c2)
+
+	result = quantum_gate{
+		r1c1: r1c1,
+		r1c2: r1c2,
+		r2c1: r2c1,
+		r2c2: r2c2,
+	}
+
+	return result
 }
 
 func matrix_divide(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
-	// todo
+	r1c1 := complex_divide(matrix1.r1c1, matrix2.r1c1)
+	r1c2 := complex_divide(matrix1.r1c2, matrix2.r1c2)
+	r2c1 := complex_divide(matrix1.r2c1, matrix2.r2c1)
+	r2c2 := complex_divide(matrix1.r2c2, matrix2.r2c2)
+
+	result = quantum_gate{
+		r1c1: r1c1,
+		r1c2: r1c2,
+		r2c1: r2c1,
+		r2c2: r2c2,
+	}
+
+	return result
 }
 
 func main() {
@@ -109,6 +159,39 @@ func main() {
 	fmt.Print("\nY / X = ", y/x)
 	fmt.Print("\n\n")
 
+	// construct matrices
 	q := matrix_maker(x, -x, y, -y)
+	v := matrix_maker(-y, x, -x, x)
+
+	// display both matrices
+	fmt.Print("Q =\n")
 	matrix_display(q)
+	fmt.Print("V =\n")
+	matrix_display(v)
+
+	fmt.Print("Q + V = \n")
+	added_matrixes := matrix_add(q, v)
+	matrix_display(added_matrixes)
+
+	fmt.Print("Q - V = \n")
+	subtracted_matrixes := matrix_subtract(q, v)
+	matrix_display(subtracted_matrixes)
+
+	fmt.Print("Q * V = \n")
+	multiplied_matrixes := matrix_multiply(q, v)
+	matrix_display(multiplied_matrixes)
+
+	fmt.Print("Q / V = \n")
+	divided_matrixes := matrix_divide(q, v)
+	matrix_display(divided_matrixes)
+
+	quant := complex(1/math.Sqrt(2), 1/math.Sqrt(2))
+	h := matrix_maker(quant, quant, quant, -quant)
+
+	fmt.Print("The Hadamard Gate: \n")
+	matrix_display(h)
+
+	SH := matrix_multiply(h, h)
+	fmt.Print("H * H =\n")
+	matrix_display(SH)
 }
