@@ -18,6 +18,10 @@ func complex_add(x complex128, y complex128) (result complex128) {
 	return result
 }
 
+func complex_subtract(x complex128, y complex128) (result complex128) {
+
+}
+
 func complex_multiply(x complex128, y complex128) (result complex128) {
 	result = x * y
 	return result
@@ -45,6 +49,22 @@ func matrix_display(matrix quantum_gate) {
 	fmt.Print("[ ", matrix.r2c1)
 	fmt.Print(" ", matrix.r2c2)
 	fmt.Print(" ]\n")
+}
+
+func matrix_add(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
+	// todo
+}
+
+func matrix_subtract(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
+	// todo
+}
+
+func matrix_multiply(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
+	// todo
+}
+
+func matrix_divide(matrix1 quantum_gate, matrix2 quantum_gate) (result quantum_gate) {
+	// todo
 }
 
 func main() {
